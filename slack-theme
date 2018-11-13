@@ -44,9 +44,6 @@ COMMANDS
      midnight-blue-mono
           Use Midnight-Blue-Mono CSS
 
-     -h, --help
-          Show this help information
-
 Report any bugs to mykehell123@gmail.com
 "
 }
@@ -72,7 +69,7 @@ fi
 
 if [ "$1" == "install" ]
 then
-    chmod 755 slack-theme
+    chmod 755 "$DIR/slack-theme"
     if [ -z "$(cat ~/.bash_profile | grep "PATH=\$PATH:$PWD")" ]
     then
         echo "export PATH=\$PATH:$PWD" >> ~/.bash_profile
