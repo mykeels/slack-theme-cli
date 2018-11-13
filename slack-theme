@@ -70,6 +70,8 @@ fi
 if [ "$1" == "install" ]
 then
     chmod 755 "$DIR/slack-theme"
+    chmod 755 "$DIR/slack-day"
+    chmod 755 "$DIR/slack-night"
     if [ -z "$(cat ~/.bash_profile | grep "PATH=\$PATH:$PWD")" ]
     then
         echo "export PATH=\$PATH:$PWD" >> ~/.bash_profile
