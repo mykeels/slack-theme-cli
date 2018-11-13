@@ -1,0 +1,15 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+INTEROP_FOLDER="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static"
+# INTEROP_FOLDER="$DIR/"
+BACKUP_FILE="$DIR/backup/ssb-interop.js"
+
+if [ -f "$BACKUP_FILE" ]
+then
+    cp "$BACKUP_FILE" "$INTEROP_FOLDER"
+
+    # restart slack
+    killall "Slack" # kill all slack processes
+    /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
+fi
