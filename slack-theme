@@ -73,7 +73,6 @@ then
     if [ -z "$(cat ~/.bash_profile | grep "PATH=\$PATH:$PWD")" ]
     then
         echo "export PATH=\$PATH:$PWD" >> ~/.bash_profile
-        . ~/.bash_profile
     fi
     echo "installed successfully"
     exit 0
