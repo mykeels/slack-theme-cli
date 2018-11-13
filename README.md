@@ -63,3 +63,10 @@ COMMANDS
      midnight-blue-mono
           Use Midnight-Blue-Mono CSS
 ```
+
+## Credits 😍
+
+Huge thanks to:
+
+- [Slack Night Mode](https://github.com/laCour/slack-night-mode)
+- [Easy Dark Mode for Slack](https://dev.to/changoman/easy-dark-mode-for-slack-1mmn)
