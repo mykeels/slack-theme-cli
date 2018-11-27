@@ -61,12 +61,14 @@ INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/s
 BACKUP_FOLDER="$DIR/backup"
 BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
 
+# exit if no argument is specified
 if [ -z "$1" ]
 then
     show_usage
     exit 0
 fi
 
+# install
 if [ "$1" == "install" ]
 then
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
@@ -79,6 +81,19 @@ then
         echo "export PATH=\$PATH:$PWD" >> ~/.bash_profile
     fi
     echo "installed successfully"
+    exit 0
+fi
+
+# uninstall
+if [ "$1" == "uninstall" ]
+then
+    . "$DIR/slack-day"
+    rm "$DIR/slack-theme"
+    rm "$DIR/slack-day"
+    rm "$DIR/slack-night"
+    rm -rf "$BACKUP_FOLDER"
+    sed -i '' "/export PATH=\$PATH:${PWD//\//\\/}/g" ~/.bash_profile
+    echo "uninstalled successfully"
     exit 0
 fi
 
