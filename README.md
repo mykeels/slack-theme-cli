@@ -37,6 +37,8 @@ SYNOPSIS
      slack-theme arc-dark
      slack-theme midnight-blue
      slack-theme midnight-blue-mono
+     slack-theme install
+     slack-theme uninstall
 
 COMMANDS
      day

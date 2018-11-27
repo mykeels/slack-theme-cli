@@ -6,15 +6,17 @@ NAME
      slack-theme
 
 SYNOPSIS
-     sh slack-theme
-     sh slack-theme day
-     sh slack-theme night
-     sh slack-theme night-mono
-     sh slack-theme aubergine
-     sh slack-theme aubergine-mono
-     sh slack-theme arc-dark
-     sh slack-theme midnight-blue
-     sh slack-theme midnight-blue-mono
+     slack-theme
+     slack-theme day
+     slack-theme night
+     slack-theme night-mono
+     slack-theme aubergine
+     slack-theme aubergine-mono
+     slack-theme arc-dark
+     slack-theme midnight-blue
+     slack-theme midnight-blue-mono
+     slack-theme install
+     slack-theme uninstall
 
 DESCRIPTION
      Change Slack Colors
@@ -43,6 +45,12 @@ COMMANDS
 
      midnight-blue-mono
           Use Midnight-Blue-Mono CSS
+
+     install
+          Download necessary scripts
+
+     uninstall
+          Remove this tool from System
 
 Report any bugs to mykehell123@gmail.com
 "
