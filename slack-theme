@@ -71,7 +71,7 @@ BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
 
 if [ -z "$SLACK_THEME_SHELL_PROFILE" ]
 then
-    SLACK_THEME_SHELL_PROFILE="~/.bash_profile"
+    SLACK_THEME_SHELL_PROFILE=~/".bash_profile"
 fi
 
 # exit if no argument is specified
@@ -91,6 +91,9 @@ then
     chmod 755 "$DIR/slack-night"
     if [ -z "$(cat $SLACK_THEME_SHELL_PROFILE | grep "PATH=\$PATH:$PWD")" ]
     then
+        if [ ! -f "$SLACK_THEME_SHELL_PROFILE" ]; then
+            mkdir -p "`dirname \"$SLACK_THEME_SHELL_PROFILE\"`" 2>/dev/null
+        fi
         echo "export PATH=\$PATH:$PWD" >> "$SLACK_THEME_SHELL_PROFILE"
     fi
     echo "installed successfully"
