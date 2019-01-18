@@ -69,6 +69,11 @@ INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/s
 BACKUP_FOLDER="$DIR/backup"
 BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
 
+if [ -z "$SLACK_THEME_SHELL_PROFILE" ]
+then
+    SLACK_THEME_SHELL_PROFILE="~/.bash_profile"
+fi
+
 # exit if no argument is specified
 if [ -z "$1" ]
 then
@@ -84,9 +89,9 @@ then
     chmod 755 "$DIR/slack-theme"
     chmod 755 "$DIR/slack-day"
     chmod 755 "$DIR/slack-night"
-    if [ -z "$(cat ~/.bash_profile | grep "PATH=\$PATH:$PWD")" ]
+    if [ -z "$(cat $SLACK_THEME_SHELL_PROFILE | grep "PATH=\$PATH:$PWD")" ]
     then
-        echo "export PATH=\$PATH:$PWD" >> ~/.bash_profile
+        echo "export PATH=\$PATH:$PWD" >> "$SLACK_THEME_SHELL_PROFILE"
     fi
     echo "installed successfully"
     exit 0
@@ -100,7 +105,7 @@ then
     rm "$DIR/slack-day"
     rm "$DIR/slack-night"
     rm -rf "$BACKUP_FOLDER"
-    sed -i '' "/export PATH=\$PATH:${PWD//\//\\/}/g" ~/.bash_profile
+    sed -i '' "/export PATH=\$PATH:${PWD//\//\\/}/g" "$SLACK_THEME_SHELL_PROFILE"
     echo "uninstalled successfully"
     exit 0
 fi
