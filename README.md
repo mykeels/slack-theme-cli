@@ -22,6 +22,8 @@ To download and install, run the following code in your terminal:
 curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && sh slack-theme install && . ~/.bash_profile
 ```
 
+> Note that if you use zsh as your shell environment, you'd need to replace `~/.bash_profile` with, and set the `SLACK_THEME_SHELL_PROFILE` enviroment variable to `~/.zshenv`
+
 ## How to use
 
 See command break-down below:
