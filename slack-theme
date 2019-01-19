@@ -72,6 +72,8 @@ BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
 if [ -z "$SLACK_THEME_SHELL_PROFILE" ]
 then
     SLACK_THEME_SHELL_PROFILE=~/".bash_profile"
+else
+    echo "sh: $SLACK_THEME_SHELL_PROFILE"
 fi
 
 # exit if no argument is specified
