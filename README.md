@@ -30,7 +30,7 @@ If you use zsh as your shell environment, you might want to run this instead:
 curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && SLACK_THEME_SHELL_PROFILE=~/.zshenv sh slack-theme install && . ~/.zshenv
 ```
 
-and make sure to add `SLACK_THEME_SHELL_PROFILE=~/.zshenv` as a line in your `~/.zshenv` file.
+and make sure to add `export SLACK_THEME_SHELL_PROFILE=~/.zshenv` as a line in your `~/.zshenv` file.
 
 ## How to use
 
