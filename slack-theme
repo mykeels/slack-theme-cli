@@ -95,6 +95,10 @@ then
             mkdir -p "`dirname \"$SLACK_THEME_SHELL_PROFILE\"`" 2>/dev/null
         fi
         echo "export PATH=\$PATH:$PWD" >> "$SLACK_THEME_SHELL_PROFILE"
+        if [ "$SLACK_THEME_SHELL_PROFILE" != "~/.bash_profile" ]
+        then
+            echo "export SLACK_THEME_SHELL_PROFILE=\"$SLACK_THEME_SHELL_PROFILE\"" >> "$SLACK_THEME_SHELL_PROFILE"
+        fi
     fi
     echo "installed successfully"
     exit 0
