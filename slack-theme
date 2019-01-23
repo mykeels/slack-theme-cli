@@ -75,13 +75,23 @@ SOLARIZED_DARK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/r
 SOLARIZED_LIGHT_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/solarized-light.css"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static/ssb-interop.js"
 BACKUP_FOLDER="$DIR/backup"
 BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
+if [ "$(uname)" == "Linux" ] # Linux OS
+then
+    INTEROP_FILE="/usr/lib/slack/resources/app.asar.unpacked/src/static/ssb-interop.js"
+elif [ "$(uname)" == "Darwin" ] # Mac OS
+then
+    INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static/ssb-interop.js"
+fi
 
 if [ -z "$SLACK_THEME_SHELL_PROFILE" ]
 then
-    SLACK_THEME_SHELL_PROFILE=~/".bash_profile"
+    SLACK_THEME_SHELL_PROFILE=~/".bash_profile" # Mac OS
+    if [ "$(uname)" == "Linux" ] # Linux OS
+    then
+        SLACK_THEME_SHELL_PROFILE=~/".profile"
+    fi
 else
     echo "sh: $SLACK_THEME_SHELL_PROFILE"
 fi
@@ -101,6 +111,10 @@ then
     chmod 755 "$DIR/slack-theme"
     chmod 755 "$DIR/slack-day"
     chmod 755 "$DIR/slack-night"
+    if [ "$(uname)" == "Linux" ]
+    then
+        chmod 666 $INTEROP_FILE
+    fi
     if [ -z "$(cat $SLACK_THEME_SHELL_PROFILE | grep "PATH=\$PATH:$PWD")" ]
     then
         if [ ! -f "$SLACK_THEME_SHELL_PROFILE" ]; then
@@ -220,8 +234,15 @@ then
     echo "$NODE_SCRIPT" >> "$INTEROP_FILE" # append script to file
     
     # restart slack
-    killall "Slack" # kill all slack processes
-    /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
+    if [ "$(uname)" == "Linux" ] # Linux OS
+    then
+        killall "slack" # kill all slack processes
+        slack </dev/null &>/dev/null & # start slack process in detached mode
+    elif [ "$(uname)" == "Darwin" ] # Mac OS
+    then
+        killall "Slack" # kill all slack processes
+        /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
+    fi
 else
     echo "file does not exist"
 fi
