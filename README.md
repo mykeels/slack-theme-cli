@@ -37,13 +37,13 @@ If you use zsh as your shell environment, you might want to run this instead:
 #### Mac (Zsh)
 
 ```sh
-curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && SLACK_THEME_SHELL_PROFILE=~/.zshenv sh slack-theme install && . ~/.zshenv
+curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && SLACK_THEME_SHELL_PROFILE=~/.zshrc sh slack-theme install && . ~/.zshrc
 ```
 
 #### Linux (Zsh)
 
 ```sh
-curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && sudo SLACK_THEME_SHELL_PROFILE=~/.zshenv bash ./slack-theme install && SILENT="$(source ~/.zshenv)"
+curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && sudo SLACK_THEME_SHELL_PROFILE=~/.zshrc bash ./slack-theme install && SILENT="$(source ~/.zshrc)"
 ```
 
 ## How to use
