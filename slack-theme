@@ -138,8 +138,16 @@ then
     rm "$DIR/slack-day"
     rm "$DIR/slack-night"
     rm -rf "$BACKUP_FOLDER"
-    sed -i '' "/export PATH=\$PATH:${PWD//\//\\/}/g" "$SLACK_THEME_SHELL_PROFILE"
-    sed -i '' "/export SLACK_THEME_SHELL_PROFILE=/g" "$SLACK_THEME_SHELL_PROFILE"
+    if [ "$(uname)" == "Linux" ] # Linux OS
+    then
+        sed "/export PATH=\$PATH:${PWD//\//\\/}/d" "$SLACK_THEME_SHELL_PROFILE"
+        sed "/export SLACK_THEME_SHELL_PROFILE=/d" "$SLACK_THEME_SHELL_PROFILE"
+    elif [ "$(uname)" == "Darwin" ] # Mac OS
+    then
+        sed -i '' "/export PATH=\$PATH:${PWD//\//\\/}/g" "$SLACK_THEME_SHELL_PROFILE"
+        sed -i '' "/export SLACK_THEME_SHELL_PROFILE=/g" "$SLACK_THEME_SHELL_PROFILE"
+    fi
+    
     echo "uninstalled successfully"
     exit 0
 fi
