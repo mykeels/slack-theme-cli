@@ -108,9 +108,9 @@ if [ "$1" == "install" ]
 then
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
-    chmod 755 "$DIR/slack-theme"
-    chmod 755 "$DIR/slack-day"
-    chmod 755 "$DIR/slack-night"
+    chmod 766 "$DIR/slack-theme"
+    chmod 766 "$DIR/slack-day"
+    chmod 766 "$DIR/slack-night"
     if [ "$(uname)" == "Linux" ]
     then
         chmod 666 $INTEROP_FILE
