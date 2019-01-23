@@ -27,7 +27,7 @@ curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-them
 ### For Linux Users
 
 ```sh
-curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && sudo bash ./slack-theme install && source ~/.profile
+curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && sudo bash ./slack-theme install && SILENT="$(source ~/.profile)"
 ```
 
 ### For Zsh Users
@@ -43,7 +43,7 @@ curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-them
 #### Linux (Zsh)
 
 ```sh
-curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && sudo SLACK_THEME_SHELL_PROFILE=~/.zshenv bash ./slack-theme install && source ~/.zshenv
+curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && sudo SLACK_THEME_SHELL_PROFILE=~/.zshenv bash ./slack-theme install && SILENT="$(source ~/.zshenv)"
 ```
 
 ## How to use
