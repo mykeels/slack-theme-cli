@@ -111,6 +111,10 @@ then
     chmod 755 "$DIR/slack-theme"
     chmod 755 "$DIR/slack-day"
     chmod 755 "$DIR/slack-night"
+    if [ "$(uname)" == "Linux" ]
+    then
+        chmod 666 $INTEROP_FILE
+    fi
     if [ -z "$(cat $SLACK_THEME_SHELL_PROFILE | grep "PATH=\$PATH:$PWD")" ]
     then
         if [ ! -f "$SLACK_THEME_SHELL_PROFILE" ]; then
