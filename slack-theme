@@ -46,6 +46,12 @@ COMMANDS
      midnight-blue-mono
           Use Midnight-Blue-Mono CSS
 
+     solarized-dark
+          Use Solarized-Dark CSS
+
+     solarized-light
+          Use Solarized-Light CSS
+
      install
           Download necessary scripts
 
@@ -63,6 +69,8 @@ BLACK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/black.
 BLACK_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/black-monospaced.css"
 MIDNIGHT_BLUE_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue.css"
 MIDNIGHT_BLUE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue-monospaced.css"
+SOLARIZED_DARK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/solarized-dark.css"
+SOLARIZED_LIGHT_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/solarized-light.css"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static/ssb-interop.js"
@@ -159,6 +167,16 @@ fi
 if [ "$1" == "midnight-blue-mono" ]
 then
     CSS_PATH="$MIDNIGHT_BLUE_MONO_PATH"
+fi
+
+if [ "$1" == "solarized-dark" ]
+then
+    CSS_PATH="$SOLARIZED_DARK_PATH"
+fi
+
+if [ "$1" == "solarized-light" ]
+then
+    CSS_PATH="$SOLARIZED_LIGHT_PATH"
 fi
 
 if [ -z "$CSS_PATH" ]
