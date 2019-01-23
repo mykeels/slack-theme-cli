@@ -45,6 +45,8 @@ SYNOPSIS
      slack-theme arc-dark
      slack-theme midnight-blue
      slack-theme midnight-blue-mono
+     slack-theme solarized-dark
+     slack-theme solarized-light
      slack-theme install
      slack-theme uninstall
 
@@ -72,6 +74,12 @@ COMMANDS
 
      midnight-blue-mono
           Use Midnight-Blue-Mono CSS
+
+     solarized-dark
+          Use Solarized-Dark CSS
+
+     solarized-light
+          Use Solarized-Light CSS
 ```
 
 ## Credits 😍
