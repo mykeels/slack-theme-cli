@@ -64,15 +64,27 @@ Report any bugs to mykehell123@gmail.com
 "
 }
 
-ARC_DARK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/arc-dark.css"
-AUBERGINE_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/aubergine.css"
-AUBERGINE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/aubergine-monospaced.css"
-BLACK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/black.css"
-BLACK_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/black-monospaced.css"
-MIDNIGHT_BLUE_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue.css"
-MIDNIGHT_BLUE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue-monospaced.css"
-SOLARIZED_DARK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/solarized-dark.css"
-SOLARIZED_LIGHT_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/solarized-light.css"
+CSS_URL="https://raw.githubusercontent.com/laCour/slack-night-mode/master"
+
+ARC_DARK_FILE="arc-dark.css"
+AUBERGINE_FILE="aubergine.css"
+AUBERGINE_MONO_FILE="aubergine-monospaced.css"
+BLACK_FILE="black.css"
+BLACK_MONO_FILE="black-monospaced.css"
+MIDNIGHT_BLUE_FILE="midnight-blue.css"
+MIDNIGHT_BLUE_MONO_FILE="midnight-blue-monospaced.css"
+SOLARIZED_DARK_FILE="solarized-dark.css"
+SOLARIZED_LIGHT_FILE="solarized-light.css"
+
+ARC_DARK_URL="$CSS_URL/css/raw/variants/$ARC_DARK_FILE"
+AUBERGINE_URL="$CSS_URL/css/raw/variants/$AUBERGINE_FILE"
+AUBERGINE_MONO_URL="$CSS_URL/css/raw/variants/$AUBERGINE_MONO_FILE"
+BLACK_URL="$CSS_URL/css/raw/$BLACK_FILE"
+BLACK_MONO_URL="$CSS_URL/css/raw/variants/$BLACK_MONO_FILE"
+MIDNIGHT_BLUE_URL="$CSS_URL/css/raw/variants/$MIDNIGHT_BLUE_FILE"
+MIDNIGHT_BLUE_MONO_URL="$CSS_URL/css/raw/variants/$MIDNIGHT_BLUE_MONO_FILE"
+SOLARIZED_DARK_URL="$CSS_URL/css/raw/variants/$SOLARIZED_DARK_FILE"
+SOLARIZED_LIGHT_URL="$CSS_URL/css/raw/variants/$SOLARIZED_LIGHT_FILE"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 BACKUP_FOLDER="$DIR/backup"
@@ -102,6 +114,19 @@ then
     show_usage
     exit 0
 fi
+
+function pull-css() {
+    mkdir -p css
+    curl $ARC_DARK_URL -O && mv $ARC_DARK_FILE "./css/$ARC_DARK_FILE"
+    curl $AUBERGINE_URL -O && mv $AUBERGINE_FILE "./css/$AUBERGINE_FILE"
+    curl $AUBERGINE_MONO_URL -O && mv $AUBERGINE_MONO_FILE "./css/$AUBERGINE_MONO_FILE"
+    curl $BLACK_URL -O && mv $BLACK_FILE "./css/$BLACK_FILE"
+    curl $BLACK_MONO_URL -O && mv $BLACK_MONO_FILE "./css/$BLACK_MONO_FILE"
+    curl $MIDNIGHT_BLUE_URL -O && mv $MIDNIGHT_BLUE_FILE "./css/$MIDNIGHT_BLUE_FILE"
+    curl $MIDNIGHT_BLUE_MONO_URL -O && mv $MIDNIGHT_BLUE_MONO_FILE "./css/$MIDNIGHT_BLUE_MONO_FILE"
+    curl $SOLARIZED_DARK_URL -O && mv $SOLARIZED_DARK_FILE "./css/$SOLARIZED_DARK_FILE"
+    curl $SOLARIZED_LIGHT_URL -O && mv $SOLARIZED_LIGHT_FILE "./css/$SOLARIZED_LIGHT_FILE"
+}
 
 # install
 if [ "$1" == "install" ]
@@ -152,6 +177,12 @@ then
     exit 0
 fi
 
+if [ "$1" == "pull-css" ]
+then
+    pull-css
+    exit 0
+fi
+
 if [ "$1" == "day" ]
 then
     . "$DIR/slack-day"
@@ -160,47 +191,47 @@ fi
 
 if [ "$1" == "night" ]
 then
-    CSS_PATH="$BLACK_PATH"
+    CSS_PATH="$BLACK_URL"
 fi
 
 if [ "$1" == "night-mono" ]
 then
-    CSS_PATH="$BLACK_MONO_PATH"
+    CSS_PATH="$BLACK_MONO_URL"
 fi
 
 if [ "$1" == "aubergine" ]
 then
-    CSS_PATH="$AUBERGINE_PATH"
+    CSS_PATH="$AUBERGINE_URL"
 fi
 
 if [ "$1" == "aubergine-mono" ]
 then
-    CSS_PATH="$AUBERGINE_MONO_PATH"
+    CSS_PATH="$AUBERGINE_MONO_URL"
 fi
 
 if [ "$1" == "arc-dark" ]
 then
-    CSS_PATH="$ARC_DARK_PATH"
+    CSS_PATH="$ARC_DARK_URL"
 fi
 
 if [ "$1" == "midnight-blue" ]
 then
-    CSS_PATH="$MIDNIGHT_BLUE_PATH"
+    CSS_PATH="$MIDNIGHT_BLUE_URL"
 fi
 
 if [ "$1" == "midnight-blue-mono" ]
 then
-    CSS_PATH="$MIDNIGHT_BLUE_MONO_PATH"
+    CSS_PATH="$MIDNIGHT_BLUE_MONO_URL"
 fi
 
 if [ "$1" == "solarized-dark" ]
 then
-    CSS_PATH="$SOLARIZED_DARK_PATH"
+    CSS_PATH="$SOLARIZED_DARK_URL"
 fi
 
 if [ "$1" == "solarized-light" ]
 then
-    CSS_PATH="$SOLARIZED_LIGHT_PATH"
+    CSS_PATH="$SOLARIZED_LIGHT_URL"
 fi
 
 if [ -z "$CSS_PATH" ]
