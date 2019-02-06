@@ -64,15 +64,29 @@ Report any bugs to mykehell123@gmail.com
 "
 }
 
-ARC_DARK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/arc-dark.css"
-AUBERGINE_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/aubergine.css"
-AUBERGINE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/aubergine-monospaced.css"
-BLACK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/black.css"
-BLACK_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/black-monospaced.css"
-MIDNIGHT_BLUE_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue.css"
-MIDNIGHT_BLUE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue-monospaced.css"
-SOLARIZED_DARK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/solarized-dark.css"
-SOLARIZED_LIGHT_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/solarized-light.css"
+INSTALL_DIR="$HOME/bin/slack-theme"
+
+CSS_URL="https://raw.githubusercontent.com/laCour/slack-night-mode/master"
+
+ARC_DARK_FILE="arc-dark.css"
+AUBERGINE_FILE="aubergine.css"
+AUBERGINE_MONO_FILE="aubergine-monospaced.css"
+BLACK_FILE="black.css"
+BLACK_MONO_FILE="black-monospaced.css"
+MIDNIGHT_BLUE_FILE="midnight-blue.css"
+MIDNIGHT_BLUE_MONO_FILE="midnight-blue-monospaced.css"
+SOLARIZED_DARK_FILE="solarized-dark.css"
+SOLARIZED_LIGHT_FILE="solarized-light.css"
+
+ARC_DARK_URL="$CSS_URL/css/raw/variants/$ARC_DARK_FILE"
+AUBERGINE_URL="$CSS_URL/css/raw/variants/$AUBERGINE_FILE"
+AUBERGINE_MONO_URL="$CSS_URL/css/raw/variants/$AUBERGINE_MONO_FILE"
+BLACK_URL="$CSS_URL/css/raw/$BLACK_FILE"
+BLACK_MONO_URL="$CSS_URL/css/raw/variants/$BLACK_MONO_FILE"
+MIDNIGHT_BLUE_URL="$CSS_URL/css/raw/variants/$MIDNIGHT_BLUE_FILE"
+MIDNIGHT_BLUE_MONO_URL="$CSS_URL/css/raw/variants/$MIDNIGHT_BLUE_MONO_FILE"
+SOLARIZED_DARK_URL="$CSS_URL/css/raw/variants/$SOLARIZED_DARK_FILE"
+SOLARIZED_LIGHT_URL="$CSS_URL/css/raw/variants/$SOLARIZED_LIGHT_FILE"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 BACKUP_FOLDER="$DIR/backup"
@@ -103,29 +117,63 @@ then
     exit 0
 fi
 
-# install
-if [ "$1" == "install" ]
-then
-    curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
-    curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
-    chmod 766 "$DIR/slack-theme"
-    chmod 766 "$DIR/slack-day"
-    chmod 766 "$DIR/slack-night"
-    if [ "$(uname)" == "Linux" ]
-    then
-        chmod 666 $INTEROP_FILE
-    fi
-    if [ -z "$(cat $SLACK_THEME_SHELL_PROFILE | grep "PATH=\$PATH:$PWD")" ]
+function pull-css() {
+    mkdir -p css
+    curl $ARC_DARK_URL -O && mv $ARC_DARK_FILE "$DIR/css/$ARC_DARK_FILE"
+    curl $AUBERGINE_URL -O && mv $AUBERGINE_FILE "$DIR/css/$AUBERGINE_FILE"
+    curl $AUBERGINE_MONO_URL -O && mv $AUBERGINE_MONO_FILE "$DIR/css/$AUBERGINE_MONO_FILE"
+    curl $BLACK_URL -O && mv $BLACK_FILE "$DIR/css/$BLACK_FILE"
+    curl $BLACK_MONO_URL -O && mv $BLACK_MONO_FILE "$DIR/css/$BLACK_MONO_FILE"
+    curl $MIDNIGHT_BLUE_URL -O && mv $MIDNIGHT_BLUE_FILE "$DIR/css/$MIDNIGHT_BLUE_FILE"
+    curl $MIDNIGHT_BLUE_MONO_URL -O && mv $MIDNIGHT_BLUE_MONO_FILE "$DIR/css/$MIDNIGHT_BLUE_MONO_FILE"
+    curl $SOLARIZED_DARK_URL -O && mv $SOLARIZED_DARK_FILE "$DIR/css/$SOLARIZED_DARK_FILE"
+    curl $SOLARIZED_LIGHT_URL -O && mv $SOLARIZED_LIGHT_FILE "$DIR/css/$SOLARIZED_LIGHT_FILE"
+}
+
+function set-env-vars() {
+    if [ -z "$(cat $SLACK_THEME_SHELL_PROFILE | grep "PATH=\$PATH:$INSTALL_DIR")" ]
     then
         if [ ! -f "$SLACK_THEME_SHELL_PROFILE" ]; then
             mkdir -p "`dirname \"$SLACK_THEME_SHELL_PROFILE\"`" 2>/dev/null
         fi
-        echo "export PATH=\$PATH:$PWD" >> "$SLACK_THEME_SHELL_PROFILE"
+        echo "export PATH=\$PATH:$INSTALL_DIR" >> "$SLACK_THEME_SHELL_PROFILE"
         if [ "$SLACK_THEME_SHELL_PROFILE" != "~/.bash_profile" ]
         then
             echo "export SLACK_THEME_SHELL_PROFILE=\"$SLACK_THEME_SHELL_PROFILE\"" >> "$SLACK_THEME_SHELL_PROFILE"
         fi
     fi
+}
+
+# install
+if [ "$1" == "install" ]
+then
+    mkdir -p "$HOME/bin"
+    mkdir -p $INSTALL_DIR
+    # ensure files are in installation directory
+    if [ ! -f "$INSTALL_DIR/slack-theme" ]
+    then
+        cp "$DIR/slack-theme" "$INSTALL_DIR/slack-theme"
+        set-env-vars
+        cd $INSTALL_DIR
+        bash "$INSTALL_DIR/slack-theme" install
+        if [ -f "$HOME/slack-theme" ]
+        then
+            rm "$HOME/slack-theme"
+        fi
+        rm -- "$0"
+        exit 0
+    fi
+    curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
+    curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
+    chmod 766 "$DIR/slack-theme"
+    chmod 766 "$DIR/slack-day"
+    chmod 766 "$DIR/slack-night"
+    pull-css # pull all relevant css files
+    if [ "$(uname)" == "Linux" ]
+    then
+        chmod 666 $INTEROP_FILE
+    fi
+    set-env-vars
     echo "installed successfully"
     exit 0
 fi
@@ -133,22 +181,29 @@ fi
 # uninstall
 if [ "$1" == "uninstall" ]
 then
-    . "$DIR/slack-day"
-    rm "$DIR/slack-theme"
-    rm "$DIR/slack-day"
-    rm "$DIR/slack-night"
+    . "$INSTALL_DIR/slack-day"
+    rm "$INSTALL_DIR/slack-day"
+    rm "$INSTALL_DIR/slack-night"
+    rm -rf "$INSTALL_DIR/css"
     rm -rf "$BACKUP_FOLDER"
     if [ "$(uname)" == "Linux" ] # Linux OS
     then
-        sed "/export PATH=\$PATH:${PWD//\//\\/}/d" "$SLACK_THEME_SHELL_PROFILE" -i
+        sed "/export PATH=\$PATH:${INSTALL_DIR//\//\\/}/d" "$SLACK_THEME_SHELL_PROFILE" -i
         sed "/export SLACK_THEME_SHELL_PROFILE=/d" "$SLACK_THEME_SHELL_PROFILE" -i
     elif [ "$(uname)" == "Darwin" ] # Mac OS
     then
-        sed -i '' "/export PATH=\$PATH:${PWD//\//\\/}/g" "$SLACK_THEME_SHELL_PROFILE"
+        sed -i '' "/export PATH=\$PATH:${INSTALL_DIR//\//\\/}/g" "$SLACK_THEME_SHELL_PROFILE"
         sed -i '' "/export SLACK_THEME_SHELL_PROFILE=/g" "$SLACK_THEME_SHELL_PROFILE"
     fi
     
+    rm -rf "$INSTALL_DIR"
     echo "uninstalled successfully"
+    exit 0
+fi
+
+if [ "$1" == "pull-css" ]
+then
+    pull-css
     exit 0
 fi
 
@@ -160,50 +215,50 @@ fi
 
 if [ "$1" == "night" ]
 then
-    CSS_PATH="$BLACK_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$BLACK_FILE")
 fi
 
 if [ "$1" == "night-mono" ]
 then
-    CSS_PATH="$BLACK_MONO_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$BLACK_MONO_FILE")
 fi
 
 if [ "$1" == "aubergine" ]
 then
-    CSS_PATH="$AUBERGINE_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$AUBERGINE_FILE")
 fi
 
 if [ "$1" == "aubergine-mono" ]
 then
-    CSS_PATH="$AUBERGINE_MONO_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$AUBERGINE_MONO_FILE")
 fi
 
 if [ "$1" == "arc-dark" ]
 then
-    CSS_PATH="$ARC_DARK_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$ARC_DARK_FILE")
 fi
 
 if [ "$1" == "midnight-blue" ]
 then
-    CSS_PATH="$MIDNIGHT_BLUE_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$MIDNIGHT_BLUE_FILE")
 fi
 
 if [ "$1" == "midnight-blue-mono" ]
 then
-    CSS_PATH="$MIDNIGHT_BLUE_MONO_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$MIDNIGHT_BLUE_MONO_FILE")
 fi
 
 if [ "$1" == "solarized-dark" ]
 then
-    CSS_PATH="$SOLARIZED_DARK_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$SOLARIZED_DARK_FILE")
 fi
 
 if [ "$1" == "solarized-light" ]
 then
-    CSS_PATH="$SOLARIZED_LIGHT_PATH"
+    CSS_CONTENT=$(cat "$DIR/css/$SOLARIZED_LIGHT_FILE")
 fi
 
-if [ -z "$CSS_PATH" ]
+if [ -z "$CSS_CONTENT" ]
 then
     echo "invalid command"
     exit 1
@@ -211,16 +266,12 @@ fi
 
 NODE_SCRIPT="
 document.addEventListener('DOMContentLoaded', function() {
- $.ajax({
-   url: '$CSS_PATH',
-   success: function(css) {
-     let overrides = \`
-     code { background-color: #535353; color: #85c5ff; } /* Change color: to whatever font color you want */
-     .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
-     \`
-     \$('<style></style>').appendTo('head').html(css + overrides);
-   }
- });
+ const css = \`$CSS_CONTENT\`
+ const overrides = \`
+   code { background-color: #535353; color: #85c5ff; } /* Change color: to whatever font color you want */
+   .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
+ \`
+ \$('<style></style>').appendTo('head').html(css + overrides);
 });
 "
 
