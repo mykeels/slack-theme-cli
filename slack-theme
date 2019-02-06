@@ -117,15 +117,15 @@ fi
 
 function pull-css() {
     mkdir -p css
-    curl $ARC_DARK_URL -O && mv $ARC_DARK_FILE "./css/$ARC_DARK_FILE"
-    curl $AUBERGINE_URL -O && mv $AUBERGINE_FILE "./css/$AUBERGINE_FILE"
-    curl $AUBERGINE_MONO_URL -O && mv $AUBERGINE_MONO_FILE "./css/$AUBERGINE_MONO_FILE"
-    curl $BLACK_URL -O && mv $BLACK_FILE "./css/$BLACK_FILE"
-    curl $BLACK_MONO_URL -O && mv $BLACK_MONO_FILE "./css/$BLACK_MONO_FILE"
-    curl $MIDNIGHT_BLUE_URL -O && mv $MIDNIGHT_BLUE_FILE "./css/$MIDNIGHT_BLUE_FILE"
-    curl $MIDNIGHT_BLUE_MONO_URL -O && mv $MIDNIGHT_BLUE_MONO_FILE "./css/$MIDNIGHT_BLUE_MONO_FILE"
-    curl $SOLARIZED_DARK_URL -O && mv $SOLARIZED_DARK_FILE "./css/$SOLARIZED_DARK_FILE"
-    curl $SOLARIZED_LIGHT_URL -O && mv $SOLARIZED_LIGHT_FILE "./css/$SOLARIZED_LIGHT_FILE"
+    curl $ARC_DARK_URL -O && mv $ARC_DARK_FILE "$DIR/css/$ARC_DARK_FILE"
+    curl $AUBERGINE_URL -O && mv $AUBERGINE_FILE "$DIR/css/$AUBERGINE_FILE"
+    curl $AUBERGINE_MONO_URL -O && mv $AUBERGINE_MONO_FILE "$DIR/css/$AUBERGINE_MONO_FILE"
+    curl $BLACK_URL -O && mv $BLACK_FILE "$DIR/css/$BLACK_FILE"
+    curl $BLACK_MONO_URL -O && mv $BLACK_MONO_FILE "$DIR/css/$BLACK_MONO_FILE"
+    curl $MIDNIGHT_BLUE_URL -O && mv $MIDNIGHT_BLUE_FILE "$DIR/css/$MIDNIGHT_BLUE_FILE"
+    curl $MIDNIGHT_BLUE_MONO_URL -O && mv $MIDNIGHT_BLUE_MONO_FILE "$DIR/css/$MIDNIGHT_BLUE_MONO_FILE"
+    curl $SOLARIZED_DARK_URL -O && mv $SOLARIZED_DARK_FILE "$DIR/css/$SOLARIZED_DARK_FILE"
+    curl $SOLARIZED_LIGHT_URL -O && mv $SOLARIZED_LIGHT_FILE "$DIR/css/$SOLARIZED_LIGHT_FILE"
 }
 
 # install
@@ -191,50 +191,50 @@ fi
 
 if [ "$1" == "night" ]
 then
-    CSS_PATH="$BLACK_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$BLACK_FILE")
 fi
 
 if [ "$1" == "night-mono" ]
 then
-    CSS_PATH="$BLACK_MONO_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$BLACK_MONO_FILE")
 fi
 
 if [ "$1" == "aubergine" ]
 then
-    CSS_PATH="$AUBERGINE_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$AUBERGINE_FILE")
 fi
 
 if [ "$1" == "aubergine-mono" ]
 then
-    CSS_PATH="$AUBERGINE_MONO_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$AUBERGINE_MONO_FILE")
 fi
 
 if [ "$1" == "arc-dark" ]
 then
-    CSS_PATH="$ARC_DARK_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$ARC_DARK_FILE")
 fi
 
 if [ "$1" == "midnight-blue" ]
 then
-    CSS_PATH="$MIDNIGHT_BLUE_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$MIDNIGHT_BLUE_FILE")
 fi
 
 if [ "$1" == "midnight-blue-mono" ]
 then
-    CSS_PATH="$MIDNIGHT_BLUE_MONO_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$MIDNIGHT_BLUE_MONO_FILE")
 fi
 
 if [ "$1" == "solarized-dark" ]
 then
-    CSS_PATH="$SOLARIZED_DARK_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$SOLARIZED_DARK_FILE")
 fi
 
 if [ "$1" == "solarized-light" ]
 then
-    CSS_PATH="$SOLARIZED_LIGHT_URL"
+    CSS_CONTENT=$(cat "$DIR/css/$SOLARIZED_LIGHT_FILE")
 fi
 
-if [ -z "$CSS_PATH" ]
+if [ -z "$CSS_CONTENT" ]
 then
     echo "invalid command"
     exit 1
@@ -242,16 +242,12 @@ fi
 
 NODE_SCRIPT="
 document.addEventListener('DOMContentLoaded', function() {
- $.ajax({
-   url: '$CSS_PATH',
-   success: function(css) {
-     let overrides = \`
-     code { background-color: #535353; color: #85c5ff; } /* Change color: to whatever font color you want */
-     .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
-     \`
-     \$('<style></style>').appendTo('head').html(css + overrides);
-   }
- });
+ const css = \`$CSS_CONTENT\`
+ const overrides = \`
+   code { background-color: #535353; color: #85c5ff; } /* Change color: to whatever font color you want */
+   .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
+ \`
+ \$('<style></style>').appendTo('head').html(css + overrides);
 });
 "
 
