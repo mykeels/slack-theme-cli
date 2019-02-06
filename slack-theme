@@ -160,7 +160,6 @@ then
         then
             rm "$HOME/slack-theme"
         fi
-        rm -- "$0"
         exit 0
     fi
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
