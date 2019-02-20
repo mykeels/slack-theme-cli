@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
    code { background-color: #535353; color: #85c5ff; } /* Change color: to whatever font color you want */
    .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
  \`
- \$('<style></style>').appendTo('head').html(css + overrides);
+ \$('<style></style>').appendTo('head').text(css + overrides);
 });
 "
 
