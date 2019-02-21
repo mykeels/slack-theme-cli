@@ -263,12 +263,22 @@ then
     exit 1
 fi
 
+if [ -z "$OVERRIDE_CSS" ]
+then
+    OVERRIDE_CSS=".menu ul li a:not(.inline_menu_link) {color: #fff !important;}
+     .p-threads_footer__input .p-message_input_field {background: #545454; border-color: #363636; color: #e6e6e6;}
+     .p-threads_footer__input .p-message_input_file_button:not(:hover) { border-color: #363636; }
+     .p-threads_footer__input .p-message_input_file_button { background-color: #363636 !important; }
+    "
+fi
+
 NODE_SCRIPT="
 document.addEventListener('DOMContentLoaded', function() {
  const css = \`$CSS_CONTENT\`
  const overrides = \`
    code { background-color: #535353; color: #85c5ff; } /* Change color: to whatever font color you want */
    .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
+   $OVERRIDE_CSS
  \`
  \$('<style></style>').appendTo('head').text(css + overrides);
 });
