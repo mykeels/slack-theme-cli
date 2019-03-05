@@ -98,6 +98,10 @@ COMMANDS
           Use Solarized-Light CSS
 ```
 
+## See Also
+
+- [Slack Black Theme](https://github.com/widget-/slack-black-theme)
+
 ## Credits 😍
 
 Huge thanks to:
