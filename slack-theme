@@ -304,8 +304,11 @@ then
         color: $THREAD_COLOR;
      }
      .p-threads_view .p-threads_view_header__channel_name { color: $THREAD_COLOR; }
-     .p_threads_view_load_older_button { background: none; }
-     .p_threads_view_load_older_button::before { color: $THREAD_COLOR; }
+     .p_threads_view_load_newer_button, .p_threads_view_load_older_button {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: $THREAD_BORDER_COLOR;
+        color: $THREAD_COLOR;
+     }
     "
 fi
 
