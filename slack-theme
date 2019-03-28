@@ -212,6 +212,7 @@ then
     exit 0
 fi
 
+BG_COLOR="#222"
 THREAD_COLOR="#e6e6e6"
 THREAD_BG_COLOR="#545454"
 THREAD_BORDER_COLOR="#363636"
@@ -229,6 +230,7 @@ fi
 if [ "$1" == "aubergine" ]
 then
     CSS_CONTENT=$(cat "$DIR/css/$AUBERGINE_FILE")
+    BG_COLOR="#3e313c"
     THREAD_COLOR="#f0d9ed"
     THREAD_BG_COLOR="#61485e"
     THREAD_BORDER_COLOR="#4a3b49"
@@ -237,6 +239,7 @@ fi
 if [ "$1" == "aubergine-mono" ]
 then
     CSS_CONTENT=$(cat "$DIR/css/$AUBERGINE_MONO_FILE")
+    BG_COLOR="#3e313c"
     THREAD_COLOR="#f0d9ed"
     THREAD_BG_COLOR="#61485e"
     THREAD_BORDER_COLOR="#4a3b49"
@@ -250,18 +253,21 @@ fi
 if [ "$1" == "midnight-blue" ]
 then
     CSS_CONTENT=$(cat "$DIR/css/$MIDNIGHT_BLUE_FILE")
+    BG_COLOR="#000"
     THREAD_COLOR="#00b9f2"
 fi
 
 if [ "$1" == "midnight-blue-mono" ]
 then
     CSS_CONTENT=$(cat "$DIR/css/$MIDNIGHT_BLUE_MONO_FILE")
+    BG_COLOR="#000"
     THREAD_COLOR="#00b9f2"
 fi
 
 if [ "$1" == "solarized-dark" ]
 then
     CSS_CONTENT=$(cat "$DIR/css/$SOLARIZED_DARK_FILE")
+    BG_COLOR="#002b36"
     THREAD_COLOR="#a1adad"
     THREAD_BG_COLOR="#003340"
     THREAD_BORDER_COLOR="#002b36"
@@ -270,6 +276,7 @@ fi
 if [ "$1" == "solarized-light" ]
 then
     CSS_CONTENT=$(cat "$DIR/css/$SOLARIZED_LIGHT_FILE")
+    BG_COLOR="#fdf6e3"
     THREAD_COLOR="#586e75"
     THREAD_BG_COLOR="#fef9ed"
     THREAD_BORDER_COLOR="#fdf6e3"
@@ -287,6 +294,18 @@ then
      .p-threads_footer__input .p-message_input_field {background: $THREAD_BG_COLOR; border-color: $THREAD_BORDER_COLOR; color: $THREAD_COLOR;}
      .p-threads_footer__input .p-message_input_file_button:not(:hover) { border-color: $THREAD_BORDER_COLOR; }
      .p-threads_footer__input .p-message_input_file_button { background-color: $THREAD_BG_COLOR !important; }
+     
+     .p-threads_view, .p-threads_view__default_background, .p-threads_view:not(.loading)::before { background: $BG_COLOR; color: $THREAD_COLOR; }
+     .p-threads_view__divider_line { border-top: 1px solid $THREAD_BORDER_COLOR; }
+     .p-threads_view__divider_label { background: $THREAD_BG_COLOR; color: $THREAD_COLOR; }
+     .p-threads_view a.c-member_slug, .c-member_slug--link, .c-mrkdwn__subteam--link {
+        background: $THREAD_BORDER_COLOR;
+        border: 1px solid $THREAD_BG_COLOR;
+        color: $THREAD_COLOR;
+     }
+     .p-threads_view .p-threads_view_header__channel_name { color: $THREAD_COLOR; }
+     .p_threads_view_load_older_button { background: none; }
+     .p_threads_view_load_older_button::before { color: $THREAD_COLOR; }
     "
 fi
 
