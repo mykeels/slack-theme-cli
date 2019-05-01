@@ -91,7 +91,13 @@ SOLARIZED_LIGHT_URL="$CSS_URL/css/raw/variants/$SOLARIZED_LIGHT_FILE"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 BACKUP_FOLDER="$DIR/backup"
 BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
-if [ "$(uname)" == "Linux" ] # Linux OS
+if [ "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p')" == "Microsoft" ] # Windows OS
+then
+    OS="windows"
+    INTEROP_FILE_ROOT="$(cmd.exe /c 'echo|set /p=%LOCALAPPDATA%' | sed -n 's/\\/\//pg' | sed -n 's/C:/\/mnt\/c/p')"
+    INTEROP_FILE="${INTEROP_FILE_ROOT}/slack/app-3.4.0/resources/app.asar.unpacked/src/static/ssb-interop.js"
+    EXE_FILE="${INTEROP_FILE_ROOT}/slack/slack.exe"
+elif [ "$(uname)" == "Linux" ] # Linux OS
 then
     INTEROP_FILE="/usr/lib/slack/resources/app.asar.unpacked/src/static/ssb-interop.js"
 elif [ "$(uname)" == "Darwin" ] # Mac OS
@@ -345,7 +351,11 @@ then
     echo "$NODE_SCRIPT" >> "$INTEROP_FILE" # append script to file
     
     # restart slack
-    if [ "$(uname)" == "Linux" ] # Linux OS
+    if [ "$OS" == "windows" ] # Windows OS
+    then
+        cmd.exe /c 'taskkill /F /IM slack.exe' &> /dev/null
+        $EXE_FILE </dev/null &>/dev/null & # start slack process in detached mode
+    elif [ "$(uname)" == "Linux" ] # Linux OS
     then
         killall "slack" # kill all slack processes
         slack </dev/null &>/dev/null & # start slack process in detached mode
