@@ -18,7 +18,13 @@ A Command-Line Tool for changing Slack's desktop app colors, like
 
 To download and install, run the following code in your terminal:
 
-### For Windows (with WSL) and Mac Users
+### For Windows (with WSL)
+
+```sh
+curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && bash slack-theme install && . ~/.profile
+```
+
+### For Mac Users
 
 ```sh
 curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && bash slack-theme install && . ~/.bash_profile
@@ -34,7 +40,7 @@ curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-them
 
 If you use zsh as your shell environment, you might want to run this instead:
 
-#### Windows / Mac (Zsh)
+#### Mac (Zsh)
 
 ```sh
 curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-theme -O && SLACK_THEME_SHELL_PROFILE=~/.zshrc bash slack-theme install && . ~/.zshrc
