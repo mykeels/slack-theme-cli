@@ -176,7 +176,7 @@ then
     pull-css # pull all relevant css files
     if [ "$(uname)" == "Linux" ]
     then
-        chmod 666 $INTEROP_FILE
+        chmod 666 "${INTEROP_FILE}"
     fi
     set-env-vars
     echo "installed successfully"
