@@ -2,7 +2,13 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 BACKUP_FILE="$DIR/backup/ssb-interop.js"
-if [ "$(uname)" == "Linux" ] # Linux OS
+if [ "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p')" == "Microsoft" ] # Windows OS
+then
+    OS="windows"
+    INTEROP_FOLDER_ROOT="$(cmd.exe /c 'echo|set /p=%LOCALAPPDATA%' | sed -n 's/\\/\//pg' | sed -n 's/C:/\/mnt\/c/p')"
+    INTEROP_FOLDER="${INTEROP_FILE_ROOT}/slack/app-3.4.0/resources/app.asar.unpacked/src/static"
+    EXE_FILE="${INTEROP_FILE_ROOT}/slack/slack.exe"
+elif [ "$(uname)" == "Linux" ] # Linux OS
 then
     INTEROP_FOLDER="/usr/lib/slack/resources/app.asar.unpacked/src/static"
 elif [ "$(uname)" == "Darwin" ] # Mac OS
@@ -15,7 +21,11 @@ then
     cp "$BACKUP_FILE" "$INTEROP_FOLDER"
 
     # restart slack
-    if [ "$(uname)" == "Linux" ] # Linux OS
+    if [ "$OS" == "windows" ] # Windows OS
+    then
+        cmd.exe /c 'taskkill /F /IM slack.exe' &> /dev/null
+        $EXE_FILE </dev/null &>/dev/null & # start slack process in detached mode
+    elif [ "$(uname)" == "Linux" ] # Linux OS
     then
         killall "slack" # kill all slack processes
         slack </dev/null &>/dev/null & # start slack process in detached mode
