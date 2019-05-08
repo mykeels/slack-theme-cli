@@ -301,7 +301,12 @@ then
         .p-threads_footer__input .p-message_input_file_button:not(:hover) { border-color: $THREAD_BORDER_COLOR; }
         .p-threads_footer__input .p-message_input_file_button { background-color: $THREAD_BG_COLOR !important; }
         
-        .p-prefs_modal__radiogroup .p-prefs_modal__radio_decorator, .c-button-unstyled.c-fullscreen_modal__close, .c-fullscreen_modal__header, .c-fullscreen_modal__content, .c-fullscreen_modal__body, .p-threads_view, .p-threads_view__default_background, .p-threads_view:not(.loading)::before { background: $BG_COLOR; color: $THREAD_COLOR; }
+        .p-prefs_modal__radiogroup .p-prefs_modal__radio_decorator, 
+            .c-button-unstyled.c-fullscreen_modal__close, 
+            .c-fullscreen_modal__header, .c-fullscreen_modal__content, 
+            .c-fullscreen_modal__body, .p-threads_view, 
+            .p-threads_view__default_background, 
+            .p-threads_view:not(.loading)::before { background: $BG_COLOR; color: $THREAD_COLOR; }
         .p-threads_view__divider_line { border-top: 1px solid $THREAD_BORDER_COLOR; }
         .p-threads_view__divider_label { background: $THREAD_BG_COLOR; color: $THREAD_COLOR; }
         .p-threads_view a.c-member_slug, .c-member_slug--link, .c-mrkdwn__subteam--link {
@@ -325,7 +330,7 @@ then
         .c-button-unstyled.c-select_button {
             color: $BG_COLOR;
         }
-        .c-label--with_formatted_text {
+        .p-prefs_modal__notification_example, .c-label--with_formatted_text {
             background: $BG_COLOR !important;
         }
     "
