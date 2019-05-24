@@ -94,9 +94,10 @@ BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
 if [ "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p')" == "Microsoft" ] # Windows OS
 then
     OS="windows"
-    INTEROP_FILE_ROOT="$(cmd.exe /c 'echo|set /p=%LOCALAPPDATA%' | sed -n 's/\\/\//pg' | sed -n 's/C:/\/mnt\/c/p')"
-    INTEROP_FILE="${INTEROP_FILE_ROOT}/slack/app-3.4.0/resources/app.asar.unpacked/src/static/ssb-interop.js"
-    EXE_FILE="${INTEROP_FILE_ROOT}/slack/slack.exe"
+    INTEROP_FILE_ROOT="$(cmd.exe /c 'echo|set /p=%LOCALAPPDATA%' | sed -n 's/\\/\//pg' | sed -n 's/C:/\/mnt\/c/p')/slack"
+    LATEST_APP_DIR="$(ls -t ${INTEROP_FILE_ROOT} | grep app- | head -n1)"
+    INTEROP_FILE="${INTEROP_FILE_ROOT}/${LATEST_APP_DIR}/resources/app.asar.unpacked/src/static/ssb-interop.js"
+    EXE_FILE="${INTEROP_FILE_ROOT}/slack.exe"
 elif [ "$(uname)" == "Linux" ] # Linux OS
 then
     INTEROP_FILE="/usr/lib/slack/resources/app.asar.unpacked/src/static/ssb-interop.js"
