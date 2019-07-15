@@ -403,7 +403,10 @@ then
         $EXE_FILE </dev/null &>/dev/null & # start slack process in detached mode
     elif [ "$(uname)" == "Linux" ] # Linux OS
     then
-        killall "slack" # kill all slack processes
+        if [ $(ps aux | grep -i slack | wc -l) -gt 1 ]
+        then
+            killall "slack" # kill all slack processes
+        fi
         slack </dev/null &>/dev/null & # start slack process in detached mode
     elif [ "$(uname)" == "Darwin" ] # Mac OS
     then
@@ -411,7 +414,11 @@ then
         then
             sudo $ASAR pack "$DIR/files/app.asar.unpacked" $ASAR_FILE
         fi
-        killall "Slack" # kill all slack processes
+
+        if [ $(ps aux | grep -i Slack | wc -l) -gt 1 ]
+        then
+            killall "Slack" # kill all slack processes
+        fi
         /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
     fi
 else
