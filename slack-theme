@@ -178,10 +178,10 @@ then
         fi
         exit 0
     fi
-    mkdir -p "$DIR/bin"
-    if [ ! -f "$DIR/bin/asar" ]
+    mkdir -p "$INSTALL_DIR/bin"
+    if [ ! -f "$INSTALL_DIR/bin/asar" ]
     then
-        curl $ASAR_REMOTE -o "$DIR/bin/asar"
+        curl $ASAR_REMOTE -o "$INSTALL_DIR/bin/asar"
     fi
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
