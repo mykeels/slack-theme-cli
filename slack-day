@@ -14,6 +14,28 @@ then
 elif [ "$(uname)" == "Darwin" ] # Mac OS
 then
     INTEROP_FOLDER="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static"
+    if [ ! -d "$INTEROP_FOLDER" ]
+    then
+        IS_VERSION_4=true
+        INTEROP_FOLDER="$DIR/files/app.asar.unpacked/dist"
+        ASAR_FILE="/Applications/Slack.app/Contents/Resources/app.asar"
+        BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.bundle.js"
+        ASAR="$DIR/bin/asar"
+    fi
+fi
+
+if [ $IS_VERSION_4 ]
+then
+    if [ ! -f $ASAR ]
+    then
+        echo "asar exec not found"
+        exit 1
+    fi
+
+    if [ ! -f "$INTEROP_FILE" ]
+    then
+        asar extract $ASAR_FILE ./files/app.asar.unpacked
+    fi
 fi
 
 if [ -f "$BACKUP_FILE" ]
@@ -31,6 +53,10 @@ then
         slack </dev/null &>/dev/null & # start slack process in detached mode
     elif [ "$(uname)" == "Darwin" ] # Mac OS
     then
+        if [ $IS_VERSION_4 ]
+        then
+            sudo asar pack ./files/app.asar.unpacked $ASAR_FILE
+        fi
         killall "Slack" # kill all slack processes
         /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
     fi

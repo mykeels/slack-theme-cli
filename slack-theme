@@ -104,6 +104,14 @@ then
 elif [ "$(uname)" == "Darwin" ] # Mac OS
 then
     INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static/ssb-interop.js"
+    if [ ! -f "$INTEROP_FILE" ]
+    then
+        IS_VERSION_4=true
+        INTEROP_FILE="$DIR/files/app.asar.unpacked/dist/ssb-interop.bundle.js"
+        ASAR_FILE="/Applications/Slack.app/Contents/Resources/app.asar"
+        BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.bundle.js"
+        ASAR="$DIR/bin/asar"
+    fi
 fi
 
 if [ -z "$SLACK_THEME_SHELL_PROFILE" ]
@@ -169,6 +177,8 @@ then
         fi
         exit 0
     fi
+    mkdir -p "$DIR/bin"
+    curl https://raw.githubusercontent.com/mykeels/asar-binaries/master/bin/asar-macos -o "$DIR/bin/asar"
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
     chmod 766 "$DIR/slack-theme"
@@ -338,6 +348,7 @@ then
 fi
 
 NODE_SCRIPT="
+/** slack-theme-cli */
 document.addEventListener('DOMContentLoaded', function() {
  const css = \`$CSS_CONTENT\`
  const overrides = \`
@@ -349,10 +360,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 "
 
+if [ $IS_VERSION_4 ]
+then
+    if [ ! -f $ASAR ]
+    then
+        echo "asar exec not found"
+        exit 1
+    fi
+    
+    if [ ! -f "$INTEROP_FILE" ]
+    then
+        asar extract $ASAR_FILE ./files/app.asar.unpacked
+    fi
+fi
+
 if [ -f "$INTEROP_FILE" ]
 then
     mkdir -p "$DIR/backup" # create folder if it does not exist
-    if [ -z "$(cat "$INTEROP_FILE" | grep "DOMContentLoaded")" ]
+    if [ -z "$(cat "$INTEROP_FILE" | grep "slack-theme-cli")" ]
     then
         cp "$INTEROP_FILE" "$BACKUP_FOLDER" # copy file as backup
     else
@@ -377,6 +402,10 @@ then
         slack </dev/null &>/dev/null & # start slack process in detached mode
     elif [ "$(uname)" == "Darwin" ] # Mac OS
     then
+        if [ $IS_VERSION_4 ]
+        then
+            sudo asar pack ./files/app.asar.unpacked $ASAR_FILE
+        fi
         killall "Slack" # kill all slack processes
         /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
     fi
