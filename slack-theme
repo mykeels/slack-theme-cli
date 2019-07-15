@@ -111,6 +111,7 @@ then
         ASAR_FILE="/Applications/Slack.app/Contents/Resources/app.asar"
         BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.bundle.js"
         ASAR="$DIR/bin/asar"
+        ASAR_REMOTE="https://raw.githubusercontent.com/mykeels/asar-binaries/master/bin/asar-macos"
     fi
 fi
 
@@ -178,7 +179,10 @@ then
         exit 0
     fi
     mkdir -p "$DIR/bin"
-    curl https://raw.githubusercontent.com/mykeels/asar-binaries/master/bin/asar-macos -o "$DIR/bin/asar"
+    if [ ! -f "$DIR/bin/asar" ]
+    then
+        curl $ASAR_REMOTE -o "$DIR/bin/asar"
+    fi
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
     chmod 766 "$DIR/slack-theme"
