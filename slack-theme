@@ -182,6 +182,7 @@ then
     if [ ! -f "$INSTALL_DIR/bin/asar" ]
     then
         curl $ASAR_REMOTE -o "$INSTALL_DIR/bin/asar"
+        chmod 766 "$INSTALL_DIR/bin/asar"
     fi
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
@@ -408,7 +409,7 @@ then
     then
         if [ $IS_VERSION_4 ]
         then
-            sudo $ASAR pack "$DIR/files/app.asar.unpacked $ASAR_FILE"
+            sudo $ASAR pack "$DIR/files/app.asar.unpacked" $ASAR_FILE
         fi
         killall "Slack" # kill all slack processes
         /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
