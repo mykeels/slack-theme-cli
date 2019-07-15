@@ -370,7 +370,7 @@ then
     
     if [ ! -f "$INTEROP_FILE" ]
     then
-        asar extract $ASAR_FILE ./files/app.asar.unpacked
+        asar extract $ASAR_FILE "$DIR/files/app.asar.unpacked"
     fi
 fi
 
@@ -404,7 +404,7 @@ then
     then
         if [ $IS_VERSION_4 ]
         then
-            sudo asar pack ./files/app.asar.unpacked $ASAR_FILE
+            sudo asar pack "$DIR/files/app.asar.unpacked $ASAR_FILE"
         fi
         killall "Slack" # kill all slack processes
         /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
