@@ -390,7 +390,7 @@ then
         then
             cp "$BACKUP_FILE" "$INTEROP_FILE"
         else
-            echo "backup file not found"
+            echo "backup file not found: $BACKUP_FILE"
             exit 1
         fi
     fi
