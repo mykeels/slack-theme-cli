@@ -112,6 +112,7 @@ then
         BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.bundle.js"
         ASAR="$DIR/bin/asar"
         ASAR_REMOTE="https://raw.githubusercontent.com/mykeels/asar-binaries/master/bin/asar-macos"
+        BACKUP_FILE_REMOTE="https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/backup/v4.0/ssb-interop.bundle.js"
     fi
 fi
 
@@ -183,6 +184,10 @@ then
     then
         curl $ASAR_REMOTE -o "$INSTALL_DIR/bin/asar"
         chmod 766 "$INSTALL_DIR/bin/asar"
+    fi
+    if [ $IS_VERSION_4 ]
+    then
+        curl $BACKUP_FILE_REMOTE -o "$INSTALL_DIR/backup/ssb-interop.bundle.js"
     fi
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
     curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
