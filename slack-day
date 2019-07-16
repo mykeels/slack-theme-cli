@@ -34,7 +34,7 @@ then
 
     if [ ! -f "$INTEROP_FILE" ]
     then
-        asar extract $ASAR_FILE ./files/app.asar.unpacked
+        $ASAR extract $ASAR_FILE ./files/app.asar.unpacked
     fi
 fi
 
@@ -58,7 +58,7 @@ then
     then
         if [ $IS_VERSION_4 ]
         then
-            sudo asar pack ./files/app.asar.unpacked $ASAR_FILE
+            sudo $ASAR pack ./files/app.asar.unpacked $ASAR_FILE
         fi
 
         if [ $(ps aux | grep -i Slack | wc -l) -gt 1 ]
