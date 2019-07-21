@@ -95,9 +95,19 @@ if [ "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p')" == "Microsoft" ] # Wi
 then
     OS="windows"
     INTEROP_FILE_ROOT="$(cmd.exe /c 'echo|set /p=%LOCALAPPDATA%' | sed -n 's/\\/\//pg' | sed -n 's/C:/\/mnt\/c/p')/slack"
-    LATEST_APP_DIR="$(ls -t ${INTEROP_FILE_ROOT} | grep app- | head -n1)"
+    LATEST_APP_DIR="$(ls -t ${INTEROP_FILE_ROOT} | grep 'app-[0-9]' | head -n1)"
     INTEROP_FILE="${INTEROP_FILE_ROOT}/${LATEST_APP_DIR}/resources/app.asar.unpacked/src/static/ssb-interop.js"
     EXE_FILE="${INTEROP_FILE_ROOT}/slack.exe"
+    if [ ! -f "$INTEROP_FILE" ]
+    then
+        IS_VERSION_4=true
+        INTEROP_FOLDER="${INTEROP_FOLDER_ROOT}/slack/${LATEST_APP_DIR}/resources/app.asar.unpacked/dist/ssb-interop.bundle.js"
+        ASAR_FILE="${INTEROP_FOLDER_ROOT}/slack/${LATEST_APP_DIR}/resources/app.asar"
+        BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.bundle.js"
+        ASAR="$DIR/bin/asar"
+        ASAR_REMOTE="https://raw.githubusercontent.com/mykeels/asar-binaries/master/bin/asar-win.exe"
+        BACKUP_FILE_REMOTE="https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/backup/v4.0/ssb-interop.bundle.js"
+    fi
 elif [ "$(uname)" == "Linux" ] # Linux OS
 then
     INTEROP_FILE="/usr/lib/slack/resources/app.asar.unpacked/src/static/ssb-interop.js"
@@ -166,6 +176,8 @@ if [ "$1" == "install" ]
 then
     mkdir -p "$HOME/bin"
     mkdir -p $INSTALL_DIR
+    mkdir -p "$INSTALL_DIR/bin"
+    mkdir -p "$INSTALL_DIR/backup"
     # ensure files are in installation directory
     if [ ! -f "$INSTALL_DIR/slack-theme" ]
     then
@@ -179,7 +191,6 @@ then
         fi
         exit 0
     fi
-    mkdir -p "$INSTALL_DIR/bin"
     if [ ! -f "$INSTALL_DIR/bin/asar" ]
     then
         curl $ASAR_REMOTE -o "$INSTALL_DIR/bin/asar"
