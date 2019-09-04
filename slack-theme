@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
  \`
  let s = document.createElement('style');
  s.type = 'text/css';
- s.innerHTML = css;
+ s.innerHTML = css + overrides;
  document.head.appendChild(s);
 });
 "
