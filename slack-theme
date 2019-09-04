@@ -377,7 +377,10 @@ document.addEventListener('DOMContentLoaded', function() {
    .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
    $ADDENDUM
  \`
- \$('<style></style>').appendTo('head').text(css + overrides);
+ let s = document.createElement('style');
+ s.type = 'text/css';
+ s.innerHTML = css;
+ document.head.appendChild(s);
 });
 "
 
